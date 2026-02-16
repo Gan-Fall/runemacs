@@ -56,6 +56,7 @@
 (setq use-package-always-ensure t)
 
 (load "~/.config/emacs/packages.d/doom-modeline")
+(load "~/.config/emacs/packages.d/vertico_savehist_orderless")
 
 (setq custom-file "~/.config/emacs/custom.el")
 (load custom-file)
