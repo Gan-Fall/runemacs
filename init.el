@@ -55,5 +55,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(load "~/.config/emacs/packages.d/doom-modeline")
+
 (setq custom-file "~/.config/emacs/custom.el")
 (load custom-file)
