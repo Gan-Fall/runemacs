@@ -54,3 +54,6 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(setq custom-file "~/.config/emacs/custom.el")
+(load custom-file)
