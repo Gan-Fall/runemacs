@@ -19,4 +19,14 @@
 
 ;; Configure the bell
 (setq visible-bell t)
-;;(setq ring-bell-function 'beep)
+;(setq ring-bell-function 'beep)
+
+;; Line numbers
+(column-number-mode)
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode 1)
+
+;; Disable line numbers for some modes
+(dolist (mode '(term-mode-hook
+  		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
