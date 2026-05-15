@@ -55,8 +55,31 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(load "~/.config/emacs/packages.d/doom-modeline")
-(load "~/.config/emacs/packages.d/vertico_savehist_orderless")
+;; Will create a package.d folder where all .el files inside are loaded
+;; on startup
+(setq ale/package-d-dir
+      (concat user-emacs-directory "packages.d/"))
+(ignore-errors 
+  (make-directory ale/package-d-dir))
+(defun ale/load (file)
+  "My custom function to load a passed in file"
+  (interactive "f")
+  (load file) )
+(defun ale/load-package-d (name)
+  "My custom function to load a file from package.d directory.
+  Must enter a string if called interactively."
+  (interactive "s")
+  (load (expand-file-name name ale/package-d-dir)) )
+(defun ale/initialize-package-d ()
+  "This function automatically runs ale/load-package-d on every
+  .el file inside package.d folder"
+  (interactive)
+  (let* ((files (directory-files ale/package-d-dir))
+         (el-files
+	  (seq-filter (lambda (str) (string-match "\.el" str)) files)))
+    (seq-map #'ale/load-package-d el-files)))
+
+(ale/initialize-package-d)
 
 (setq custom-file "~/.config/emacs/custom.el")
 (load custom-file)
