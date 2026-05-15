@@ -11,3 +11,7 @@
 	    (lambda ()
 	      (setq-local undo-tree-auto-save-history 't))))
 (global-undo-tree-mode 1)
+
+(defadvice undo-tree-make-history-save-file-name
+    (after undo-tree activate)
+  (setq ad-return-value (concat ad-return-value ".zst")))
