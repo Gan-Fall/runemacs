@@ -28,7 +28,8 @@
 
 ;; Disable line numbers for some modes
 (dolist (mode '(term-mode-hook
-  		eshell-mode-hook))
+  		eshell-mode-hook
+		vterm-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Same but for fill column
