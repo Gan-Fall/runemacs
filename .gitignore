@@ -2,3 +2,5 @@ eln-cache
 elpa
 eshell
 history
+transient
+undo-tree
