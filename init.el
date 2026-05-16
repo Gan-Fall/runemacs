@@ -82,5 +82,7 @@
 
 (ale/initialize-package-d)
 
+(recentf-mode)
+
 (setq custom-file "~/.config/emacs/custom.el")
 (load custom-file)
