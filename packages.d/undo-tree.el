@@ -1,7 +1,7 @@
 (use-package undo-tree
   :custom
   (undo-tree-enable-undo-in-region t)
-  (undo-tree-history-directory-alist '(("." . (concat user-emacs-directory "undotree"))))
+  (undo-tree-history-directory-alist (list (cons "." (concat user-emacs-directory "undotree/"))))
   ;; Pt 1
   (undo-tree-auto-save-history nil)
   :config
