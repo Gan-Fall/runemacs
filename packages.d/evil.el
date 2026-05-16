@@ -84,3 +84,11 @@
   :ensure t
   :config
   (evil-collection-init))
+
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config
+  (dolist (mode '(html-mode-hook))
+    (add-hook mode #'turn-on-surround-mode))
+  )
