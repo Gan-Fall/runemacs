@@ -4,6 +4,10 @@
   ; (setq evil-want-C-i-jump nil) ; Remove vim C-i in edit mode functionality
   ; (setq evil-want-C-u-delete t) ; Whether C-u should delete back to indent in insert mode.
 
+  ;; For Evil-Collection
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
+
 
   :config
   (evil-set-undo-system 'undo-tree)
@@ -74,4 +78,9 @@
 ;; Remember on certain buffers you might want to start on emacs mode instead of evil mode. If you find any add them here.
 
 
-(use-package evil-collection)
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
