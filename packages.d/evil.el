@@ -92,3 +92,48 @@
   (dolist (mode '(html-mode-hook))
     (add-hook mode #'turn-on-surround-mode))
   )
+
+(use-package shift-number)
+
+;; For now, until issue#30 on evil numbers is fixed, or melpa
+;; decides to adopt another fork, use the included numbers.el
+(add-to-list 'load-path "packages.d/evil-numbers")
+(require 'evil-numbers)
+(define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+(define-key evil-visual-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(define-key evil-visual-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+;(define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+(define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+;(define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+(define-key evil-normal-state-map (kbd "g +") 'evil-numbers/inc-at-pt-incremental)
+(define-key evil-normal-state-map (kbd "g -") 'evil-numbers/dec-at-pt-incremental)
+(define-key evil-visual-state-map (kbd "g +") 'evil-numbers/inc-at-pt-incremental)
+(define-key evil-visual-state-map (kbd "g -") 'evil-numbers/dec-at-pt-incremental)
+(define-key evil-normal-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental)
+(define-key evil-normal-state-map (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental)
+(define-key evil-visual-state-map (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental)
+(define-key evil-visual-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental)
+
+;; Once melpa fixes the package, this code can be restored
+;(use-package evil-numbers
+  ;:after shift-number
+  ;:config
+  ;(define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+  ;(define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+  ;(define-key evil-visual-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+  ;(define-key evil-visual-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+  ;(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+  ;;(define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+  ;(define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+  ;;(define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+  ;(define-key evil-normal-state-map (kbd "g +") 'evil-numbers/inc-at-pt-incremental)
+  ;(define-key evil-normal-state-map (kbd "g -") 'evil-numbers/dec-at-pt-incremental)
+  ;(define-key evil-visual-state-map (kbd "g +") 'evil-numbers/inc-at-pt-incremental)
+  ;(define-key evil-visual-state-map (kbd "g -") 'evil-numbers/dec-at-pt-incremental)
+  ;(define-key evil-normal-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental)
+  ;(define-key evil-normal-state-map (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental)
+  ;(define-key evil-visual-state-map (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental)
+  ;(define-key evil-visual-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental))
+  ; C-x ones are disabled for now as C-x is too important
