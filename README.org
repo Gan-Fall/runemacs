@@ -1,0 +1,21 @@
+* Philosophy
+My philosophy with this config is: to learn Emacs slowly. As such, my first
+concern is to only add things as I need them and understand them. The second was
+to have documentation via the git tool. Maybe one day I will try org-babel again.
+
+* What about LSPs?
+This will be the slowest progress out of all the components in my config. Coming
+from Neovim with an opinionated LSP setup, I never fully learnt the LSP spec,
+configurations, what options existed, and what *I* like about it, as such I will
+really take my time getting good at using Emacs as an IDE then one day try
+Neovim again and make a more sober decision between the two (for IDE purposes,
+otherwise they're really not comparable).
+
+Neovim and Emacs rock!🎸
+
+* Requirements
+So far the only requirements are the same as vterm.
+
+* Thanks
+ThePrimagen and daviwil @ System Crafters for their amazing Neovim and Emacs
+guides respectively.
