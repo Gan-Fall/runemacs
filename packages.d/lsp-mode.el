@@ -24,3 +24,5 @@
   :hook (lsp-mode . lsp-ui-mode)
   :custom
   (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
