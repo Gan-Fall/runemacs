@@ -73,9 +73,13 @@
   ; Make Control-g work like Control-c
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'normal)
 
 ;; Remember on certain buffers you might want to start on emacs mode instead of evil mode. If you find any add them here.
+  (evil-set-initial-state 'term-mode 'emacs)
+  (evil-set-initial-state 'vterm-mode 'emacs)
+  (evil-set-initial-state 'shell-mode 'emacs)
+  (evil-set-initial-state 'eshell-mode 'emacs))
 
 
 
@@ -83,7 +87,13 @@
   :after evil
   :ensure t
   :config
-  (evil-collection-init))
+  (evil-collection-init
+   (let ((disable-list '(term vterm shell eshell))) ;; Do not load evil-collection for all modes in this list
+     (seq-filter (lambda (mode)
+		   (if (consp mode)
+		       (not (seq-intersection disable-list mode))
+		       (not (member mode disable-list))))
+		   evil-collection-mode-list))))
 
 (use-package evil-surround
   :after evil
