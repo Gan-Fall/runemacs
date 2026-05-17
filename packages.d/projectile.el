@@ -23,3 +23,21 @@
 
 (use-package ag)
 (use-package rg)
+
+;; Temporary (hopefully) fix due to the original functions
+; not preserving changes when using C-g or stopping when inputting
+; empty var name
+(define-skeleton projectile-skel-dir-locals
+  "Insert a .dir-locals.el template."
+  nil
+  "((nil . ("
+  ("Value: "
+   "("
+   (let ((var-name (projectile-read-variable)))
+     (if (string-empty-p var-name)
+	 ;; Stop the sub-skeleton iteration on empty variable name.
+	 (signal 'quit t)
+       var-name))
+   " . " str ")" \n)
+  resume:
+  ")))")
