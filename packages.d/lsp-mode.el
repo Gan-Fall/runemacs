@@ -18,4 +18,4 @@
          ;; if you want which-key integration
          (lsp-mode . efs/lsp-mode-setup)
          (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp lsp-deferred)
+  :commands (lsp lsp-deferred))
