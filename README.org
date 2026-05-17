@@ -14,7 +14,10 @@ otherwise they're really not comparable).
 Neovim and Emacs rock!🎸
 
 * Requirements
-So far the only requirements are the same as vterm.
+Same requirements as vterm + tree-sitter cli installed.
+
+Your lsp servers must be installed manually.
+See [[https://emacs-lsp.github.io/lsp-mode/page/languages/][lsp-mode language documentation for more info.]]
 
 * Thanks
 ThePrimagen and daviwil @ System Crafters for their amazing Neovim and Emacs
