@@ -82,6 +82,15 @@
 
 (ale/initialize-package-d)
 
+;; Will add ~/.rbenv to PATH and exec-path if it exists
+;; this is so lsp-mode is aware of my ruby executables
+(let ((ruby-bin (expand-file-name "~/.rbenv/shims")))
+  (when (file-directory-p ruby-bin)
+    (progn
+      (setenv "PATH" (concat ruby-bin ":" (getenv "PATH")))
+      (add-to-list 'exec-path (expand-file-name "~/.rbenv/shims"))
+      (setq lsp-sorbet-as-add-on t) ))) ; Also run sorbet as add on
+
 (recentf-mode)
 
 (setq custom-file "~/.config/emacs/custom.el")
