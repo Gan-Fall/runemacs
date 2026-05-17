@@ -19,3 +19,8 @@
          (lsp-mode . efs/lsp-mode-setup)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
