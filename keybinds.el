@@ -1,3 +1,11 @@
+(use-package hydra)
+
+(defhydra hydra-text-scale ()
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
+
 (defun ale/replace-word ()
   (interactive)
   (let ((replace-string (concat "%s/"
@@ -42,6 +50,9 @@
   "p v" '(dired-jump :which-key "Dired")
   "p I" '(projectile-invalidate-cache :which-key "projectile-invalidate-cache")
   "p i" '(consult-projectile-switch-to-buffer :which-key "consult-projectile-switch-to-buffer")
+
+  ;; Magit
+  "t" '(hydra-text-scale/body :which-key "Text scale")
 
   ;; Magit
   "g" '(magit-status :which-key "Magit")
