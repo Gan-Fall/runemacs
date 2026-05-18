@@ -49,8 +49,5 @@
   ;; Undo-Tree
   "u" '(undo-tree-visualize :which-key "Undo-Tree")
 
-  ;; Rename
-  "l" '(lsp-command-map :which-key "LSP-Mode")
-
   ;; Windows
   "w" '(evil-window-map :which-key "Windows"))
