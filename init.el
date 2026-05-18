@@ -82,6 +82,8 @@
 
 (ale/initialize-package-d)
 
+(load (expand-file-name "./keybinds.el"))
+
 ;; Will add ~/.rbenv to PATH and exec-path if it exists
 ;; this is so lsp-mode is aware of my ruby executables
 (let ((ruby-bin (expand-file-name "~/.rbenv/shims")))
