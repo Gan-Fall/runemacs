@@ -26,3 +26,8 @@
   (lsp-ui-doc-position 'bottom))
 
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package dap-mode
+  :config
+  (add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra))))
