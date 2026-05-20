@@ -1,6 +1,7 @@
 (use-package company
   :after lsp-mode
-  :hook (lsp-mode . company-mode)
+  :hook ((lsp-mode . company-mode)
+	 (geiser-mode . company-mode))
   :bind (:map company-active-map
          ("<tab>" . company-complete-selection))
         (:map lsp-mode-map
