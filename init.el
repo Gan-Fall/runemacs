@@ -82,7 +82,7 @@
 
 (ale/initialize-package-d)
 
-(load (expand-file-name (concat user-emacs-directory "/keybinds.el")))
+(load (expand-file-name (concat user-emacs-directory "keybinds.el")))
 
 ;; Will add ~/.rbenv to PATH and exec-path if it exists
 ;; this is so lsp-mode is aware of my ruby executables
@@ -91,9 +91,9 @@
     (progn
       (setenv "PATH" (concat ruby-bin ":" (getenv "PATH")))
       (add-to-list 'exec-path (expand-file-name "~/.rbenv/shims"))
-      (setq lsp-sorbet-as-add-on t) ))) ; Also run sorbet as add on
+     (setq lsp-sorbet-as-add-on t) ))) ; Also run sorbet as add on
 
 (recentf-mode)
 
-(setq custom-file "~/.config/emacs/custom.el")
+(setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file)

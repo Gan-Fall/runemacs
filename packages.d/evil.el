@@ -107,7 +107,7 @@
 
 ;; For now, until issue#30 on evil numbers is fixed, or melpa
 ;; decides to adopt another fork, use the included numbers.el
-(add-to-list 'load-path (concat user-emacs-directory "/packages.d/evil-numbers"))
+(add-to-list 'load-path (concat user-emacs-directory "packages.d/evil-numbers"))
 (require 'evil-numbers)
 (define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
