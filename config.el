@@ -76,3 +76,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; In case I'm using a non-POSIX shell
+(setq shell-file-name (executable-find "bash"))
