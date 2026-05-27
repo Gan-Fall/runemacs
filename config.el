@@ -79,3 +79,15 @@
 
 ;; In case I'm using a non-POSIX shell
 (setq shell-file-name (executable-find "bash"))
+
+;;-----------------------------Keybinds---------------------------------------
+
+; Leader key
+(setq doom-leader-alt-key "C-SPC")
+(setq doom-localleader-alt-key "C-SPC m")
+
+;; Make company select with return or C-l now that M-SPC is not available
+(map! :after company
+      :map company-active-map
+      "RET" #'company-complete-selection
+      "C-l" #'company-complete-selection)
