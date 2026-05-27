@@ -91,3 +91,75 @@
       :map company-active-map
       "RET" #'company-complete-selection
       "C-l" #'company-complete-selection)
+
+(evil-define-command ale/recenter-after-command-wrapper (command &rest args)
+  "Wrap an evil command so that evil-scroll-line-to-center is called after.
+Not sure if this works with a command that takes anything but COUNT as argument.
+It also swallows first motion. WIP for now..."
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (evil-ensure-column
+    (let ((result (apply command args)))
+      (progn
+        (evil-scroll-line-to-center nil)
+        result))))
+
+(evil-define-command ale/evil-scroll-up-recenter-visual (count)
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (ale/recenter-after-command-wrapper #'evil-scroll-up count))
+(evil-define-command ale/evil-scroll-down-recenter-visual (count)
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (ale/recenter-after-command-wrapper #'evil-scroll-down count))
+(evil-define-command ale/evil-ex-search-next-recenter-visual (count)
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (ale/recenter-after-command-wrapper #'evil-ex-search-next count))
+(evil-define-command ale/evil-ex-search-previous-recenter-visual (count)
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (ale/recenter-after-command-wrapper #'evil-ex-search-previous count))
+
+;; Swap highlighted text and text below it
+(defun ale/evil-move-line-down ()
+  (interactive)
+  (evil-ex-execute "'<,'>m '>+1")
+  (evil-indent-line (point-at-bol) (point-at-eol))
+  (evil-visual-line))
+;; Swap highlighted text and text above it
+(defun ale/evil-move-line-up ()
+  (interactive)
+  (evil-ex-execute "'<,'>m '<-2")
+  (evil-indent-line (point-at-bol) (point-at-eol))
+  (evil-visual-line))
+;; Append line below to current one
+(defun ale/evil-append-next-line ()
+  (interactive)
+  ;;122 is ASCII for 'z'
+  (evil-set-marker 122)
+  (evil-join (point-at-bol) (point-at-eol 1))
+  (evil-goto-mark 122))
+
+(map! :after evil
+      :nv "C-d" #'ale/evil-scroll-down-recenter-visual
+      :nv "C-u" #'ale/evil-scroll-up-recenter-visual
+      :nv "n" #'ale/evil-ex-search-next-recenter-visual
+      :nv "N" #'ale/evil-ex-search-previous-recenter-visual
+      :v "K" #'ale/evil-move-line-up
+      :v "J" #'ale/evil-move-line-down
+      :n "J" #'ale/evil-append-next-line)
+
+;; Equivalent of
+; (evil-define-key '(normal visual) 'global (kbd "C-d") 'ale/evil-scroll-down-recenter-visual)
+; (evil-define-key '(normal visual) 'global (kbd "C-u") 'ale/evil-scroll-up-recenter-visual)
+; (evil-define-key '(normal visual) 'global (kbd "n") 'ale/evil-ex-search-next-recenter-visual)
+; (evil-define-key '(normal visual) 'global (kbd "N") 'ale/evil-ex-search-previous-recenter-visual)
+; (evil-define-key 'visual 'global (kbd "K") 'ale/evil-move-line-up)
+; (evil-define-key 'visual 'global (kbd "J") 'ale/evil-move-line-down)
+; (evil-define-key 'normal 'global (kbd "J") 'ale/evil-append-next-line)
