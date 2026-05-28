@@ -107,7 +107,6 @@
 ;; TODO Consult
 ;; TODO Projectile
 ;; TODO Perspective
-
 (setq original-doom-leader-map doom-leader-map) ; Save original leader map for reference.
 
 ;; Some bind remaps I would make to default doom keymaps
@@ -194,7 +193,7 @@
       "s" #'+default/search-project
       "S" #'+default/search-project-for-symbol-at-point)
 
-(map! :map ale/projectile-map
+(map! :map ale/magit-map
       "s" #'magit-status
       "g" #'magit-status)
 
