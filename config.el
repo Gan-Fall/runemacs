@@ -174,6 +174,7 @@
       "<" #'projectile-recentf
       ">" #'projectile-find-file
       "s" #'ale/replace-word
+      "x" #'ale/evil-add-executable-flag
       "h" help-map
       "w" evil-window-map
       "b" #'consult-buffer ;;TODO Figure out how to use perspective eventually
@@ -254,6 +255,9 @@ It also swallows first motion. WIP for now..."
   (evil-set-marker 122)
   (evil-join (point-at-bol) (point-at-eol 1))
   (evil-goto-mark 122))
+(defun ale/evil-add-executable-flag ()
+  (interactive)
+  (shell-command (concat "chmod +x " (file!))))
 
 (map! :after evil
       :nv "C-d" #'ale/evil-scroll-down-recenter-visual
