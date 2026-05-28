@@ -263,7 +263,14 @@ It also swallows first motion. WIP for now..."
       :nv "N" #'ale/evil-ex-search-previous-recenter-visual
       :v "K" #'ale/evil-move-line-up
       :v "J" #'ale/evil-move-line-down
-      :n "J" #'ale/evil-append-next-line)
+      :n "J" #'ale/evil-append-next-line
+      :n "C-j" #'next-error
+      :n "C-k" #'previous-error)
+
+(map! :after evil-numbers
+      :v "g C-a" #'evil-numbers/inc-at-pt-incremental
+      :v "g C-x" #'evil-numbers/dec-at-pt-incremental
+      :v "g _" #'evil-numbers/dec-at-pt)
 
 ;; Equivalent of
 ; (evil-define-key '(normal visual) 'global (kbd "C-d") 'ale/evil-scroll-down-recenter-visual)
