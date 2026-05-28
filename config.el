@@ -81,6 +81,13 @@
 ;; In case I'm using a non-POSIX shell
 (setq shell-file-name (executable-find "bash"))
 
+;; Fill Column
+(set-fill-column 80)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+(dolist (mode '(prog-mode-hook
+  		org-mode-hook))
+  (add-hook mode 'display-fill-column-indicator-mode))
+
 ;;-----------------------------Keybinds---------------------------------------
 
 ; Leader key
