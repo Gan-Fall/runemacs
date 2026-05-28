@@ -1,0 +1,7 @@
+#+title: Readme
+* TODO
+- [ ] Figure out hydra-like functionality
+- [ ] Figure out harpoon-like functionality
+  - [ ] Figure out workspaces
+  - [ ] Figure out bookmarks, bookmark a-list, and dog-ears
+- [ ] Figure out quickfix-like functionality
