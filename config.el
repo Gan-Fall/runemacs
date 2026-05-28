@@ -100,6 +100,108 @@
       "RET" #'company-complete-selection
       "C-l" #'company-complete-selection)
 
+;; Doom simply gives too many quite excellent options, and I get choice
+;; paralysis. I want to learn package by package so I will add keybinds
+;; as needed.
+;; TODO Embark
+;; TODO Consult
+;; TODO Projectile
+;; TODO Perspective
+
+(setq original-doom-leader-map doom-leader-map) ; Save original leader map for reference.
+
+;; Some bind remaps I would make to default doom keymaps
+;; (map! :map doom-leader-map
+;;       ";" #'embark-act
+;;       "C-;" #'embark-dwim
+;;       ":" #'eval-expression
+;;       "!" #'shell-command
+;;       "," #'recentf-open-files
+;;       "<" #'projectile-recentf
+;;       ">" #'projectile-find-file
+;;       "s" #'ale/replace-word)
+
+;; (setq ale/kill-buffer-map
+;;       (make-sparse-keymap))
+
+;; (map! :map ale/kill-buffer-map
+;;       "a" #'doom/kill-all-buffers
+;;       "o" #'doom/kill-other-buffers
+;;       "k" #'kill-current-buffer
+;;       "s" #'kill-buffer
+;;       "p" #'projectile-kill-buffers)
+
+;; (map! :map doom-leader-buffer-map
+;;       "k" ale/kill-buffer-map
+;;       "B" #'+vertico/switch-workspace-buffer
+;;       "b" #'switch-to-buffer)
+;;       "S" #'+vertico/switch-workspace-buffer ;; Unbinds basic-save-buffer
+;;       "s" #'switch-to-buffer) ;;Unbinds evil-write-all
+
+;; (map! :map doom-leader-project-map
+;;       "v" #'dired-jump
+;;       "V" #'dired-jump-other-window
+;;       "," #'projectile-recentf
+;;       ";" #'projectile-switch-to-buffer
+;;       "i" #'projectile-ibuffer ;; Unbinds projectile-invalidate-cache
+;;       "s" doom-leader-search-map) ;; Unbinds projectile-save-project-buffers
+
+(defun ale/replace-word ()
+  (interactive)
+  (let ((replace-string (concat "%s/"
+		   (thing-at-point 'word 'no-properties)
+		   "//gI")))
+    (minibuffer-with-setup-hook
+	(lambda ()
+	  (backward-char 3))
+      (evil-ex replace-string))) )
+
+;; Create keymaps
+(dolist (keymap '(ale/doom-leader-map
+                  ale/kill-buffer-map
+                  ale/buffer-map
+                  ale/projectile-map
+                  ale/magit-map))
+  (set keymap (make-sparse-keymap)))
+
+;; Bind keymaps
+(map! :leader
+      ";" #'embark-act
+      "C-;" #'embark-dwim
+      ":" #'pp-eval-expression
+      "!" #'shell-command
+      "," #'recentf-open-files
+      "." #'find-file
+      "<" #'projectile-recentf
+      ">" #'projectile-find-file
+      "s" #'ale/replace-word
+      "h" help-map
+      "w" evil-window-map
+      "b" #'consult-buffer ;;TODO Figure out how to use perspective eventually
+      "p" ale/projectile-map
+      "g" ale/magit-map)
+
+(map! :leader
+      :after lsp-mode
+      "f" #'lsp-format-buffer
+      "r" #'lsp-rename)
+
+(map! :map ale/projectile-map
+      "b" #'projectile-switch-to-buffer
+      "p" #'projectile-switch-project
+      "v" #'dired-jump
+      "V" #'dired-jump-other-window
+      "s" #'+default/search-project
+      "S" #'+default/search-project-for-symbol-at-point)
+
+(map! :map ale/projectile-map
+      "s" #'magit-status
+      "g" #'magit-status)
+
+;; Evil
+;; I set evil up to be as close to my Neovim setup as possible.
+;; Besides the few commands I add below, I just want it to act as close
+;; to vanilla as possible.
 (evil-define-command ale/recenter-after-command-wrapper (command &rest args)
   "Wrap an evil command so that evil-scroll-line-to-center is called after.
 Not sure if this works with a command that takes anything but COUNT as argument.
