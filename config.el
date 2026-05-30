@@ -169,6 +169,7 @@
       "C-;" #'embark-dwim
       ":" #'pp-eval-expression
       "!" #'shell-command
+      "C-!" #'eshell-command
       "," #'recentf-open-files
       "." #'find-file
       "<" #'projectile-recentf
@@ -178,6 +179,8 @@
       "h" help-map
       "w" evil-window-map
       "b" #'consult-buffer ;;TODO Figure out how to use perspective eventually
+      "v" #'+vterm/toggle
+      "V" #'+vterm/here
       "p" ale/projectile-map
       "g" ale/magit-map)
 
