@@ -45,7 +45,86 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory (file-truename "~/Documents/org"))
 (setq org-roam-directory (file-truename "~/Documents/org/roam"))
+(with-eval-after-load 'org
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-habit-graph-column 60)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+  (setq org-refile-targets
+        '(("Archive.org" :maxlevel . 1)
+          ("Tasks.org" :maxlevel . 1)))
 
+  ;; Save Org buffers after refiling!
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+  (setq org-tag-alist
+        '((:startgroup)
+                                        ; Put mutually exclusive tags here
+          (:endgroup)
+          ("@errand" . ?E)
+          ("@home" . ?H)
+          ("@work" . ?W)
+          ("agenda" . ?a)
+          ("planning" . ?p)
+          ("publish" . ?P)
+          ("batch" . ?b)
+          ("note" . ?n)
+          ("idea" . ?i)))
+
+  ;; Configure custom agenda views
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+           ((agenda "" ((org-deadline-warning-days 14)))
+            (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+
+          ("w" "Workflow Status"
+           ((todo "WAIT"
+                  ((org-agenda-overriding-header "Waiting on External")
+                   (org-agenda-files org-agenda-files)))
+            (todo "REVIEW"
+                  ((org-agenda-overriding-header "In Review")
+                   (org-agenda-files org-agenda-files)))
+            (todo "PLAN"
+                  ((org-agenda-overriding-header "In Planning")
+                   (org-agenda-todo-list-sublevels nil)
+                   (org-agenda-files org-agenda-files)))
+            (todo "BACKLOG"
+                  ((org-agenda-overriding-header "Project Backlog")
+                   (org-agenda-todo-list-sublevels nil)
+                   (org-agenda-files org-agenda-files)))
+            (todo "READY"
+                  ((org-agenda-overriding-header "Ready for Work")
+                   (org-agenda-files org-agenda-files)))
+            (todo "ACTIVE"
+                  ((org-agenda-overriding-header "Active Projects")
+                   (org-agenda-files org-agenda-files)))
+            (todo "COMPLETED"
+                  ((org-agenda-overriding-header "Completed Projects")
+                   (org-agenda-files org-agenda-files)))
+            (todo "CANC"
+                  ((org-agenda-overriding-header "Cancelled Projects")
+                   (org-agenda-files org-agenda-files)))))))
+
+  (setq org-capture-templates
+        `(("t" "Tasks / Projects")
+          ("tt" "Task" entry (file+olp "~/Documents/org/Tasks.org" "Inbox")
+           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+          ("tT" "Task - No ref" entry (file+olp "~/Documents/org/Tasks.org" "Inbox")
+           "* TODO %?\n  %U\n  %i" :empty-lines 1)
+
+          ("j" "Journal" entry
+           (file+olp+datetree "~/Documents/org/Journal.org")
+           "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+           ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+           :clock-in :clock-resume
+           :empty-lines 1)
+
+          ("m" "Metrics Capture")
+          ("mw" "Weight" table-line (file+headline "~/Documents/org/Metrics.org" "Weight")
+           "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t))) )
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `with-eval-after-load' block, otherwise Doom's defaults may override your
@@ -88,6 +167,8 @@
   		org-mode-hook))
   (add-hook mode 'display-fill-column-indicator-mode))
 
+(after! org
+  (setq org-hide-emphasis-markers nil))
 ;;-----------------------------Keybinds---------------------------------------
 
 ; Leader key
@@ -160,7 +241,8 @@
                   ale/kill-buffer-map
                   ale/buffer-map
                   ale/projectile-map
-                  ale/magit-map))
+                  ale/magit-map
+                  ale/org-map))
   (set keymap (make-sparse-keymap)))
 
 ;; Bind keymaps
@@ -182,7 +264,8 @@
       "v" #'+vterm/toggle
       "V" #'+vterm/here
       "p" ale/projectile-map
-      "g" ale/magit-map)
+      "g" ale/magit-map
+      "o" ale/org-map)
 
 (map! :leader
       :after lsp-mode
@@ -200,6 +283,20 @@
 (map! :map ale/magit-map
       "s" #'magit-status
       "g" #'magit-status)
+
+(defun ale/org-refile-to-archive ()
+  (interactive)
+  (+org/refile-to-file nil (file-truename "~/Documents/org/Archive.org")))
+
+(map! :map ale/org-map
+      "a" #'org-agenda
+      "s" #'org-schedule
+      "S" #'org-deadline
+      "C-s" #'org-timestamp
+      "t" #'org-todo
+      "r" #'ale/org-refile-to-archive
+      "R" #'org-refile
+      "c" #'org-capture)
 
 ;; Evil
 ;; I set evil up to be as close to my Neovim setup as possible.
